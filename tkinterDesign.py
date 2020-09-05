@@ -342,6 +342,7 @@ class BotiWidget(ttk.Frame):
         if self.bot.run is 'OFF':
             self.start_bot_field.set('RUN')
             self.bot.run = 'ON'
+            self.bot.get_out = 1
         elif self.bot.run is 'ON':
             self.start_bot_field.set('PAUSE')
             self.bot.run = 'OFF'
