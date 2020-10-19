@@ -2,13 +2,8 @@ from time import *
 from xbox_controll import XBOX_CONTROL
 from computer_vision import imagebot
 from telegrams import TGRAMS
-import random
-import sys
-import datetime
-
-
 from imagesearch import *
-
+import sys
 
 class XBOX_BOT():
 
@@ -21,7 +16,7 @@ class XBOX_BOT():
                                 'gekauft'            : '1',
                             }
         self.status         = 'init'
-        self.run            = 'ON'
+        self.run            = 'OFF'
         self.cards          = 0
         self.transfermarkt  = 0
         self.insgesamt      = 0
@@ -42,6 +37,8 @@ class XBOX_BOT():
         self.gesamt_coins_  = 0
         self.coinselling    = 'OFF'
         self.solver         = 'ON'
+        self.fast           = 0
+        self.debug          = 0
 
 
     def start(self):
@@ -60,9 +57,14 @@ class XBOX_BOT():
     def preissuche_loop(self):
         sicherheit = 0
         while 1:
+            if self.debug is 1:
+                print('preissuche_loop')
             if self.get_out is 1:
                 return 'get_out'
-            sleep(1)
+            if self.fast is 1:
+                sleep(0.7)
+            else:
+                sleep(1)
             if self.vision.regions['transfermarkt_found'][0] != 0:
                 self.new_extended()
                 return 9
@@ -94,13 +96,14 @@ class XBOX_BOT():
 
 
     def read_transfermarket(self):
-        objekt_string = self.vision.tess(self, [self.getCalibY(+668), self.getCalibX(-246), 106, 39])
-        if objekt_string.__contains__('/100 Objekte'):
-            objekt_string = objekt_string.replace('/100 Objekte', '')
+        obje_string = self.vision.tess(self, [self.getCalibY(470), self.getCalibX(-263), 102, 39])
+        if obje_string.__contains__('/100 Items'):
+            objekt_string = obje_string.replace('/100 Items', '')
             self.transfermarkt = int(self.replace_string(objekt_string))
             if self.transfermarkt > 90:
                 self.tele.telegram_bot_sendtext('TRANSFERMARKT FULL: ' + str(self.transfermarkt))
-
+                self.tele.telegram_bot_sendtext('TRANSFERMARKT FULL: ' + str(obje_string))
+                pass
     def set_price(self):
         if self.get_out is 1:
             return 'get_out'
@@ -121,20 +124,20 @@ class XBOX_BOT():
     def selling_new(self, anfang):
         if self.get_out is 1:
             return 'get_out'
-        self.vision.get_pixel_color(self, self.getCalibX(-127), self.getCalibY(534), self.xbox_cmd, 'down', self.vision.pink, 0)
+        self.vision.get_pixel_color(self, self.getCalibX(-134), self.getCalibY(287), self.xbox_cmd, 'down', self.vision.lila, 0)
         self.xbox_cmd.press_button('lt')
-        self.vision.get_pixel_color(self, self.getCalibX(- 144), self.getCalibY(519), self.xbox_cmd, 'up', self.vision.pink, 0)
+        self.vision.get_pixel_color(self, self.getCalibX(-158), self.getCalibY(298), self.xbox_cmd, 'up', self.vision.lila, 0)
         sleep(0.5)
         self.xbox_cmd.make_price(anfang, self.price)
         try:
-            self.last_price = int(self.replace_string(self.vision.tess(self, [self.vision.regions['transfermarkt_found'][0] + 611, self.vision.regions['transfermarkt_found'][1] - 84, 34, 15])))
+            self.last_price = int(self.replace_string(self.vision.tess(self, [self.getCalibY(397), self.getCalibX(-98), 44, 20])))
             self.sum = self.sum + self.price * 0.95 - self.last_price
         except:
-            print("Unexpected error:", sys.exc_info()[0])
+            #print("Unexpected error:", sys.exc_info()[0])
             pass
 
 
-        self.vision.get_pixel_color(self, self.getCalibX(-9), self.getCalibY(590), self.xbox_cmd, 'up', self.vision.pink, 0)
+        self.vision.get_pixel_color(self, self.getCalibX(-19), self.getCalibY(338), self.xbox_cmd, 'up', self.vision.lila,  0)
 
 
     def replace_string(self, txt):
@@ -154,7 +157,7 @@ class XBOX_BOT():
     def empty_transfermarket(self):
         self.xbox_cmd.press_button('b')
         sleep(5)
-        self.vision.get_pixel_color(self, self.getCalibX(+36), self.getCalibY(+264), self.xbox_cmd, 'down', self.vision.pink)
+        self.vision.get_pixel_color(self, self.getCalibX(-97),self.getCalibY(276), self.xbox_cmd, 'right', 	[135,  81, 251], 0)
         sleep(3)
         self.xbox_cmd.press_button('a')
         sleep(5)
@@ -168,7 +171,7 @@ class XBOX_BOT():
         sleep(5)
         self.xbox_cmd.press_button('b')
         sleep(5)
-        self.vision.get_pixel_color(self, self.getCalibX(-182), self.getCalibY(+745), self.xbox_cmd, 'up', self.vision.pink)
+        self.vision.get_pixel_color(self, self.getCalibX(17),self.getCalibY(274), self.xbox_cmd, 'right', [120,  68, 233], 0)
         self.xbox_cmd.press_button('a')
         sleep(5)
 
@@ -178,33 +181,32 @@ class XBOX_BOT():
         if self.transfermarkt > 90:
             self.empty_transfermarket()
             self.transfermarkt = 0
+
         self.make_new_price()
-        self.vision.get_pixel_color(self, self.getCalibX(-29), self.getCalibY(135), self.xbox_cmd, 'down', self.vision.pink, 0)
-
-        self.vision.get_pixel_color(self, self.getCalibX(-123), self.getCalibY(88), self.xbox_cmd, 'a', [140, 144, 146], 0)
-
-        self.vision.get_pixel_color(self, self.getCalibX(26), self.getCalibY(74), self.xbox_cmd, 'down', self.vision.blue, 0)
+        self.vision.get_pixel_color(self, self.getCalibX(25), self.getCalibY(-170), self.xbox_cmd, 'down', self.vision.cyan, 0)
         self.xbox_cmd.press_button('left')
         try:
-            stringi = self.vision.tess(self, [self.getCalibY(+63), self.getCalibX(-269), 35, 15])
+            stringi = self.vision.tess(self, [self.getCalibY(-183),self.getCalibX(-291), 50, 15])
             self.gesamt_coins_ = int(self.replace_string(stringi))
         except:
             #print("Unexpected error:", sys.exc_info()[0])
-            #print(stringi)
             pass
         self.xbox_cmd.press_button('y')
 
     def make_new_price(self):
+        self.vision.get_pixel_color(self, self.getCalibX(-36), self.getCalibY(-241), self.xbox_cmd, 'down',
+                                    [78,244,228], 0, thresh = 25)
+        self.vision.get_pixel_color(self, self.getCalibX(123), self.getCalibY(-156), self.xbox_cmd, 'a', [62, 156, 191],
+                                    0)
         if self.new_price == self.confirm_price:
             return
         else:
             self.confirm_price = self.new_price
-
+        if self.fast is 1:
+            return
         if self.get_out is 1:
             return 'get_out'
-        self.vision.get_pixel_color(self, self.getCalibX(-29), self.getCalibY(135), self.xbox_cmd, 'down', self.vision.pink, 0)
-        self.vision.get_pixel_color(self, self.getCalibX(-123), self.getCalibY(88), self.xbox_cmd, 'a', [140, 144, 146], 0)
-        self.vision.get_pixel_color(self, self.getCalibX(85), self.getCalibY(90), self.xbox_cmd, 'down', self.vision.blue, 0)
+        self.vision.get_pixel_color(self, self.getCalibX(87), self.getCalibY(-167), self.xbox_cmd, 'down', self.vision.cyan, 0)
 
         self.xbox_cmd.press_button('lt')
         sleep(1)
@@ -219,7 +221,6 @@ class XBOX_BOT():
         self.selling_new(anfang)
         sleep(1)
         self.xbox_cmd.press_button('a')
-        #self.vision.ok_while(self)
         sleep(2)
         self.xbox_cmd.press_button('a')
         sleep(2)
@@ -229,6 +230,8 @@ class XBOX_BOT():
     def transfermarkt_loop(self):
         gotIt = 0
         for s in range(0, 50):
+            if self.debug is 1:
+                print('transfermarkt_loop')
             if self.get_out is 1:
                 return 'get_out'
 
@@ -236,12 +239,18 @@ class XBOX_BOT():
                 nix = self.vision.suche_pics2(self, 'transfermarkt_nix', 'transfermarkt_found')
             else:
                 nix = self.vision.pixel_compare(self,
-                                    [self.getCalibX(-41),self.getCalibY(350)],
-                                    [self.getCalibX(14),self.getCalibY(56)], self.vision.pink,
-                                                                             self.vision.dark_grey, 10, 10)
+                                    [self.getCalibX(-50),self.getCalibY(44)],
+                                    [self.getCalibX(-235), self.getCalibY(+96)],
+                                                self.vision.lila,
+                                               [45, 45, 63],
+                                                 10, 10)
 
             if nix == 2:
-                self.vision.waitKaufsignal(self)
+                self.vision.waitKaufsignal2(self, self.getCalibX(123),self.getCalibY(-245))
+                self.xbox_cmd.kaufen2(self, self.vision)
+                gotIt = self.proof_kauf()
+                break
+            if nix == 3:
                 self.xbox_cmd.kaufen2(self, self.vision)
                 gotIt = self.proof_kauf()
                 break
@@ -258,7 +267,6 @@ class XBOX_BOT():
         while 1:
             if self.get_out is 1:
                 return 'get_out'
-            #nix = self.vision.suche_pics2(self, 'gekauft', 'abgelaufen')
             nix = self.vision.suche_pics_loop(self, self.proof_loop)
             sleep(1)
             if nix == 1:
@@ -280,7 +288,6 @@ class XBOX_BOT():
                 test = self.selling(150)
                 if test == 0:
                     return 0
-                #self.vision.ok_while(self)
                 self.xbox_cmd.press_button('a')
                 return 1
 
@@ -295,14 +302,14 @@ class XBOX_BOT():
 
             sleep(0.5)
             sicherheit = sicherheit + 1
-            if sicherheit > 50:
+            if sicherheit > 10:
                 self.stoerung = 1
         print('mhm')
         return 0
 
     def searchingbegin(self):
         while 1:
-            for n in range(0, 10):
+            for n in range(0, random.randint(10,16)):
                 starttime = time.clock()
                 if self.get_out is 1:
                     self.get_out            = 0
@@ -319,18 +326,16 @@ class XBOX_BOT():
                         self.cards = self.cards + 1
                         self.insgesamt = self.insgesamt + 1
                         print(str(self.cards) + " von (" + str(self.insgesamt) + ")")
-
                         self.tele.telegram_bot_sendtextSTATUS(str(self.cards) + " von (" + str(self.insgesamt) + ") " + str(int(self.sum)) + ' Coins (' +str(round(self.sum*self.card_price/10000, 4))  + ' €)  Insgesamt:' + str(int(self.gesamt_coins_)) + '   TM:'+ str(self.transfermarkt))
                     elif gotIt == 2:
                         self.insgesamt = self.insgesamt + 1
                         print(str(self.cards) + " von (" + str(self.insgesamt) + ")")
                         self.tele.telegram_bot_sendtextSTATUS(str(self.cards) + " von (" + str(self.insgesamt) + ") " + str(int(self.sum)) + ' Coins (' +str(round(self.sum*self.card_price/10000, 4))  + ' €)  Insgesamt:' + str(int(self.gesamt_coins_)) + '   TM:'+ str(self.transfermarkt))
-                    elif gotIt == -1:
-                        sleep(0.05)
-            if (time.clock() - starttime) < 40 and self.run is 'ON':
-                sleep(random.randint(35, 45))
-            else:
-                sleep(random.randint(10, 20))
+            if self.run is 'ON':
+                if (time.clock() - starttime) < 40:
+                    sleep(random.randint(35, 45))
+                else:
+                    sleep(random.randint(10, 20))
         print('BOT_ENDE')
 
 

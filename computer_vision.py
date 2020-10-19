@@ -14,6 +14,9 @@ class imagebot():
         self.pink = [250, 84, 97]
         self.black_ok = [0, 0, 0]
         self.dark_grey = [221, 223, 223]
+        self.dunkel_blau = [20,18,71]
+        self.cyan        = [42, 254, 201]
+        self.lila        = [126,  66, 244]
 
         self.regions = {
             'normal': [0, 0, 0, 0, 0],
@@ -33,9 +36,15 @@ class imagebot():
             'ok2': [0, 0, 0, 0, 0],
             'ok3': [0, 0, 0, 0, 0],
             'ok4': [0, 0, 0, 0, 0],
+            'ok5': [0, 0, 0, 0, 0],
+            'test': [0, 0, 0, 0, 0],
             '100full': [0, 0, 0, 0, 0],
             'bietoption': [0, 0, 0, 0, 0],
-            'transfermarkt': [0, 0, 0, 0, 0]
+            'transfermarkt': [0, 0, 0, 0, 0],
+            'erneut_versuchen': [0, 0, 0, 0, 0],
+            'jaein': [0, 0, 0, 0, 0],
+            'sicher_ja': [0, 0, 0, 0, 0],
+            'sicher_nein': [0, 0, 0, 0, 0]
         }
 
 
@@ -52,7 +61,7 @@ class imagebot():
             return 0
 
 
-    def get_pixel_color(self, bot, x, y, xbox_cmd, command, color, schnell = 1):
+    def get_pixel_color(self, bot, x, y, xbox_cmd, command, color, schnell = 1,thresh = 10):
         sicherheit = 0
         bot.status = 'get_pixel_color'+command#+str(x)+str(y)
         while 1:
@@ -62,7 +71,7 @@ class imagebot():
             try:
                 image = pyautogui.screenshot()
                 image = np.array(image)
-                thresh = 10
+
             except:
                 sicherheit = sicherheit + 1
 
@@ -76,6 +85,7 @@ class imagebot():
                         time.sleep(0.01)
                         if schnell is 0:
                             sleep(1)
+                            sicherheit = sicherheit + 2
                     sicherheit = sicherheit + 1
                 else:
                     bot.stoerung = 1
@@ -109,27 +119,63 @@ class imagebot():
         except:
             print('wrong')
         image = np.array(image)
-        for r in range(bot.getCalibY(355), bot.getCalibY(800)):
-            coord2 = [bot.getCalibX(-42), r - 1]
+        for r in range(bot.getCalibY(355-200), bot.getCalibY(800-300),4):
+            coord2 = [bot.getCalibX(-42), r]
 
-            if image[coord2[0], coord2[1], 0] > 200 and \
-                    image[coord2[0], coord2[1], 1] > 200 and \
-                    image[coord2[0], coord2[1], 2] > 100 and image[coord2[0], coord2[1], 2] < 180:
+            if image[coord2[0], coord2[1], 0] > 100 and \
+                    image[coord2[0], coord2[1], 1] > 120 and \
+                    image[coord2[0], coord2[1], 2] > 65 and \
+                    image[coord2[0], coord2[1], 2] < 150:
                 count = count + 1
         return count
 
     def waitKaufsignal(self, bot):
+        tried = 0
         while 1:
             if self.get_out is 1:
                 return 'get_out'
-
-            if self.get_color_row(bot) > 20:
+            counti = self.get_color_row(bot)
+            #print(counti)
+            if counti > 10 or tried > 3:
                 return 1
+            else:
+                tried = tried + 1
+                print(counti)
+
+    def waitKaufsignal2(self, bot, x, y):
+        while 1:
+            if self.get_out is 1:
+                return 'get_out'
+            image = pyautogui.screenshot()
+            image = np.array(image)
+
+            coord2 = [x, y]
+            color = [111, 160, 51]
+            if self.get_pixel_diff(image, coord2, [112,162,50], 10):
+                #print('gruen')
+                return 1
+                # return
+                pass
+            elif self.get_pixel_diff(image, coord2, [134, 24, 28], 10):
+                sleep(0.1)
+                #print('rot')
+                return 1
+            else:
+                pass
+                # print(str(image[coord2[0], coord2[1], 0] - color[0]) + ',' +
+                #                 str(image[coord2[0], coord2[1], 1] - color[0]) + ',' +
+                #                 str(image[coord2[0], coord2[1], 2] - color[0]))
+
+                #print('pink ' + str(image[coord2[0], coord2[1], 0]) + ',' +
+                #    str(image[coord2[0], coord2[1], 1]) + ',' +
+                #  str(image[coord2[0], coord2[1], 2]))
+
+
 
     def suche_pics(self, find_img):
         if self.get_out is 1:
             return 'get_out'
-        precision = 0.9
+        precision = 0.7
         template = self.prepare_template(find_img)
 
         image = self.prepare_screenshot(find_img)
@@ -150,7 +196,7 @@ class imagebot():
         if self.get_out is 1:
             return 'get_out'
         if self.regions[find_img][4] is 0:
-            path = r'C:\Users\Kimi\Desktop'
+            path = r'C:\Users\Kimi\Desktop\xbox'
             template = cv2.imread(path + r'\\' + find_img + '.png')
             template = cv2.cvtColor(template, cv2.COLOR_BGR2GRAY)
             self.regions[find_img][4] = template
@@ -161,21 +207,22 @@ class imagebot():
     def prepare_screenshot(self, find_img):
         if self.get_out is 1:
             return 'get_out'
-
-        try:
-            if self.regions[find_img][0] == 0:
-                image = pyautogui.screenshot()
-            else:
-                image = pyautogui.screenshot(
-                region=(self.regions[find_img][0], self.regions[find_img][1], self.regions[find_img][2], self.regions[find_img][3]))
-        except:
-            print('wrong')
-            image = pyautogui.screenshot()
+        while 1:
+            try:
+                if self.regions[find_img][0] == 0:
+                    image = pyautogui.screenshot()
+                else:
+                    image = pyautogui.screenshot(
+                    region=(self.regions[find_img][0], self.regions[find_img][1], self.regions[find_img][2], self.regions[find_img][3]))
+                break
+            except:
+                print('wrong')
+                sleep(1)
         image = np.array(image)
         image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
         return image
 
-    def pixel_compare(self, bot, coord1, coord2, color1, color2, filter1, filter2):
+    def pixel_compare(self, bot, coord1, coord4, color1, color4, filter1, filter4):
         bot.status = 'pixel_compare'#+str(coord1)+str(coord2)+str(color1)+str(color2)
         sicherheit = 0
         while 1:
@@ -191,19 +238,24 @@ class imagebot():
             if self.get_pixel_diff(image, coord1, color1, filter1):
                 bot.stoerung = 0
                 return 1
-            elif self.get_pixel_diff(image, coord2, color2, filter2):
+            elif self.get_pixel_diff(image, coord4, color4, filter4):
                 bot.stoerung = 0
+                #print('grau')
                 return 2
+            elif self.get_pixel_diff(image, [bot.getCalibX(123),bot.getCalibY(-245)], [134, 24, 28], 5):
+                bot.stoerung = 0
+                #print('prerot')
+                return 3
             else:
                 if sicherheit < 500:
                     sicherheit = sicherheit + 1
                 else:
                     bot.stoerung = 1
                     sleep(0.05)
-                    print(color2)
-                    print(str(image[coord2[0], coord2[1], 0]) + ',' +
-                          str(image[coord2[0], coord2[1], 1]) + ',' +
-                          str(image[coord2[0], coord2[1], 2]))
+                    #print(color2)
+                    #print(str(image[coord2[0], coord2[1], 0]) + ',' +
+                    #      str(image[coord2[0], coord2[1], 1]) + ',' +
+                    #      str(image[coord2[0], coord2[1], 2]))
 
     def suche_pics2(self, bot, find_img1, find_img2):
         if self.get_out is 1:
@@ -215,8 +267,10 @@ class imagebot():
 
         image1 = self.prepare_screenshot(find_img1)
         image2 = self.prepare_screenshot(find_img2)
-
-        res2 = cv2.matchTemplate(image2, template2, cv2.TM_CCOEFF_NORMED)
+        try:
+            res2 = cv2.matchTemplate(image2, template2, cv2.TM_CCOEFF_NORMED)
+        except:
+            pass
         min_val, max_val, min_loc, max_loc = cv2.minMaxLoc(res2)
         if max_val > precision:
             if self.regions[find_img2][0] is 0:
@@ -244,7 +298,7 @@ class imagebot():
             return 1
         return 0
 
-    def suche_pics_part(self,find_img1, precision=0.9):
+    def suche_pics_part(self,find_img1, precision=0.75):
         if self.get_out is 1:
             return 'get_out'
         template1 = self.prepare_template(find_img1)
@@ -286,6 +340,9 @@ class imagebot():
                 return int(pics[s])
         return 0
 
+
+
+
     def tess(self,bot, reg):
         pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
         try:
@@ -294,17 +351,14 @@ class imagebot():
             print('wrong')
             image = np.array(pyautogui.screenshot(region=(reg[0], reg[1], reg[2], reg[3])))
         template = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+        template = cv2.bitwise_not(template)
         #print(pytesseract.image_to_string(template))
         #cv2.imshow('template', template)
         #cv2.waitKey()
+        # resize image
         return pytesseract.image_to_string(template)
 
-    def ok_while(self, bot):
-        while 1:
-            if self.get_out is 1:
-                return 'get_out'
+#vision = imagebot('')
+#vision.tess([1399, 130, 106, 39])
 
-            stringi = self.tess(bot, [1156, 220, 700, 240])
-            if stringi.__contains__('OK') or stringi.__contains__('Transferpreises'):
-                bot.xbox_cmd.press_button('a')
-                break
+#vision.get_pixel_color(self, 683, 467, self.xbox_cmd, 'down', , 0)

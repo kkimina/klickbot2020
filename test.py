@@ -760,3 +760,26 @@ class status():
         #pixel_compare([352, 1371], [515, 1263], pink, black_ok)
         self.searchingbegin(self.price)
 
+
+def get_pixel_color(x,y):
+    while 1:
+        image = pyautogui.screenshot()
+        image = np.array(image)
+
+        coord2 = [x,y]
+        color = [72,104,33]
+        if get_pixel_diff(image, coord2, color, 5):
+            print('gruen')
+            return
+        elif get_pixel_diff(image, coord2, [128,31,36], 5):
+            print('rot')
+        else:
+            #print(str(image[coord2[0], coord2[1], 0] - color[0]) + ',' +
+            #                 str(image[coord2[0], coord2[1], 1] - color[0]) + ',' +
+            #                 str(image[coord2[0], coord2[1], 2] - color[0]))
+
+            print('pink ' + str(image[coord2[0], coord2[1], 0]) + ',' +
+                  str(image[coord2[0], coord2[1], 1]) + ',' +
+                  str(image[coord2[0], coord2[1], 2]))
+
+#get_pixel_color(512,690)

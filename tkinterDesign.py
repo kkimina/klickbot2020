@@ -143,9 +143,10 @@ class BotiWidget(ttk.Frame):
     def starting(self):
         threading.Thread(target=self.automatic_update).start()
         threading.Thread(target=self.bot.start).start()
+        time.sleep(3)
         self.bot_on_off()
         threading.Thread(target=self.get_coin_sell).start()
-        threading.Thread(target=self.webapp.main_bot).start()
+        #threading.Thread(target=self.webapp.main_bot).start()
         threading.Thread(target=self.bot.tele.other_bot).start()
         self.bot.tele.updater.start_polling()
         #self.bot.tele.updater.idle()
@@ -210,12 +211,13 @@ class BotiWidget(ttk.Frame):
             self.bot.buy_price        = int(self.xbox_verkauf_val.get())
             self.bot.price            = int(self.xbox_verkauf_val.get())
             self.bot.new_price        = int(self.xbox_kauf_val.get())
-            self.bot.card_price       = float(0.26)
+            self.bot.card_price       = float(1.29)
             self.webapp_status_screen.set(self.webapp.status_screen)
             sleep(5)
             if self.bot.stoerung is 1 and self.bot.solver is 'ON':
                 image = pyautogui.screenshot()
                 image = np.array(image)
+                cv2.imwrite('stoerung.png', image)
                 if self.bot.vision.suche_pics('extended')[0] != -1:
                     self.bot.stoerung = 0
                     self.bot.get_out = 1
@@ -224,17 +226,21 @@ class BotiWidget(ttk.Frame):
                     self.bot.vision.regions['transfermarkt_found'][0] = 0
                     self.bot.tele.telegram_bot_sendtext('getout')
 
-                elif self.bot.vision.suche_pics('ok')[0] != -1:
+                elif self.bot.vision.suche_pics('erneut_versuchen')[0] != -1:
                     self.bot.xbox_cmd.press_button('a')
-                    self.bot.tele.telegram_bot_sendtext('ok_pressed_a')
+                    self.bot.tele.telegram_bot_sendtext('erneut_versuchen')
 
-                elif self.bot.vision.get_pixel_diff(image, [self.bot.getCalibX(-1), self.bot.getCalibY(+80)], self.bot.vision.blue, 9) is 1:
-                    self.bot.xbox_cmd.press_button('b')
-                    sleep(3)
-                    self.bot.xbox_cmd.press_button('b')
-                    sleep(3)
-                    self.bot.xbox_cmd.press_button('up')
-                    self.bot.tele.telegram_bot_sendtext('pixel_blue_pressed_b')
+                #elif self.bot.vision.get_pixel_diff(image, [self.bot.getCalibX(-1), self.bot.getCalibY(+80)], self.bot.vision.blue, 9) is 1:
+                #    self.bot.xbox_cmd.press_button('b')
+                #    sleep(3)
+                #    self.bot.xbox_cmd.press_button('b')
+                #    sleep(3)
+                #    self.bot.xbox_cmd.press_button('up')
+                #    self.bot.tele.telegram_bot_sendtext('pixel_blue_pressed_b')
+                #
+                elif self.bot.vision.suche_pics('abgelaufen')[0] != -1:
+                    self.bot.xbox_cmd.press_button('a')
+                    self.bot.tele.telegram_bot_sendtext('abgelaufen_pressed_a')
 
                 elif self.bot.vision.suche_pics('ok2')[0] != -1:
                     self.bot.xbox_cmd.press_button('a')
@@ -248,25 +254,49 @@ class BotiWidget(ttk.Frame):
                     self.bot.xbox_cmd.press_button('a')
                     self.bot.tele.telegram_bot_sendtext('ok4_pressed_a')
 
-                elif self.bot.vision.suche_pics('bietoption')[0] != -1:
-                    self.bot.xbox_cmd.press_button('b')
-                    self.bot.tele.telegram_bot_sendtext('bietoption_pressed_b')
+                elif self.bot.vision.suche_pics('ok5')[0] != -1:
+                    self.bot.xbox_cmd.press_button('a')
+                    self.bot.tele.telegram_bot_sendtext('ok5_pressed_a')
+
+                #elif self.bot.vision.suche_pics('jaein')[0] != -1:
+                #    self.bot.xbox_cmd.press_button('down')
+                #    sleep(2)
+                #    self.bot.xbox_cmd.press_button('b')
+                #    self.bot.tele.telegram_bot_sendtext('jaein_b')
+
+                elif self.bot.vision.suche_pics('sicher_nein')[0] != -1:
+                    self.bot.xbox_cmd.press_button('a')
+                    self.bot.tele.telegram_bot_sendtext('sicher_a')
+
+                elif self.bot.vision.suche_pics('sicher_ja')[0] != -1:
+                    self.bot.xbox_cmd.press_button('down')
+                    self.bot.tele.telegram_bot_sendtext('sicher_runter')
+
 
                 elif self.bot.vision.suche_pics('transfermarkt_found')[0] != -1:
                     self.bot.xbox_cmd.press_button('b')
                     self.bot.tele.telegram_bot_sendtext('transfermarkt_found_pressed_b')
 
-                elif self.bot.vision.suche_pics('selling1')[0] != -1:
-                    self.bot.xbox_cmd.press_button('x')
-                    self.bot.tele.telegram_bot_sendtext('pressed_x')
 
-                elif self.bot.vision.suche_pics('selling2')[0] != -1:
-                    self.bot.xbox_cmd.press_button('x')
-                    self.bot.tele.telegram_bot_sendtext('pressed_x')
-
-                elif self.bot.vision.tess(self.bot, [1156, 220, 700, 240]).__contains__('OK'):
+                #elif self.bot.vision.suche_pics('selling1')[0] != -1:
+                #    self.bot.xbox_cmd.press_button('x')
+                #    self.bot.tele.telegram_bot_sendtext('pressed_x')
+                #
+                #elif self.bot.vision.suche_pics('selling2')[0] != -1:
+                #    self.bot.xbox_cmd.press_button('x')
+                #    self.bot.tele.telegram_bot_sendtext('pressed_x')
+                #
+                #elif self.bot.vision.tess(self.bot, [1156, 220, 700, 240]).__contains__('OK'):
+                #    self.bot.xbox_cmd.press_button('a')
+                #    self.bot.tele.telegram_bot_sendtext('ok_a')
+                #
+                elif self.bot.vision.get_pixel_diff(image, [self.bot.getCalibX(78),self.bot.getCalibY(-244)], [126, 222, 255], 10):
                     self.bot.xbox_cmd.press_button('a')
-                    self.bot.tele.telegram_bot_sendtext('ok_a')
+                    self.bot.tele.telegram_bot_sendtext('get_back')
+
+                elif self.bot.vision.get_pixel_diff(image, [self.bot.getCalibX(79),self.bot.getCalibY(47)], [82, 230, 225], 10):
+                    self.bot.vision.vision.get_pixel_color(self, self.bot.getCalibX(78),self.bot.getCalibY(-244), self.xbox_cmd, 'right', [126, 222, 255], 0)
+                    self.bot.tele.telegram_bot_sendtext('go_to_transfermarkt')
 
                 else:
                     self.bot.tele.telegram_bot_sendtext('STÖÖÖÖHRUNG no solution')
@@ -290,7 +320,7 @@ class BotiWidget(ttk.Frame):
             hash = hashlib.md5((str(partnerid) + str(secretkey) + str(timestamp)).encode())
             minbuy = str(self.selling_min_val.get())
             maxbuy = str(self.selling_max_val.get())
-            dsfut_path = r'https://dsfut.net/api/20/xb/' + partnerid + r'/' + timestamp + r'/' + str(
+            dsfut_path = r'https://dsfut.net/api/21/xb/' + partnerid + r'/' + timestamp + r'/' + str(
                 hash.hexdigest() + r'?min_buy=' + minbuy + r'&max_buy=' + maxbuy)
             if self.bot.coinselling is 'ON':
                 output = requests.get(dsfut_path).text
@@ -328,11 +358,26 @@ class BotiWidget(ttk.Frame):
                     self.bot.coinselling = 'OFF'
             time.sleep(requestspeed)
 
+    #def find_img(self):
+    #    i = 0
+    #    while 1:
+    #        i=i+1
+    #        coo = self.bot.vision.suche_pics('test')[0]
+    #        if coo == -1:
+    #            print('not found')
+    #        elif coo == 670 or coo == 0:
+    #            print('found')
+    #        else:
+    #            print('error')
+    #        print(i)
+    #        sleep(0.1)
+
     def selling_on_off(self):
         if self.bot.coinselling is 'OFF':
             self.sell_field.set('SELLING - Running...')
             self.bot.coinselling = 'ON'
             self.bot.solver      = 'ON'
+
         elif self.bot.coinselling is 'ON':
             self.sell_field.set('SELLING - OFF')
             self.bot.coinselling = 'OFF'
@@ -342,10 +387,12 @@ class BotiWidget(ttk.Frame):
         if self.bot.run is 'OFF':
             self.start_bot_field.set('RUN')
             self.bot.run = 'ON'
-            self.bot.get_out = 1
         elif self.bot.run is 'ON':
             self.start_bot_field.set('PAUSE')
             self.bot.run = 'OFF'
+            self.bot.get_out            = 1
+            self.bot.vision.get_out     = 1
+            self.bot.xbox_cmd.get_out   = 1
         self.xbox_statistics.set(str(self.bot.cards) + " von (" + str(self.bot.insgesamt) + ")")
         self.bot.price = int(self.xbox_verkauf_val.get())
 
