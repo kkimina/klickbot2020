@@ -1,5 +1,5 @@
-setting_bot = 2
-tesseract   = r'C:\Program Files (x86)\Tesseract-OCR\tesseract.exe'
+setting_bot = 1
+tesseract   = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
 
 
 

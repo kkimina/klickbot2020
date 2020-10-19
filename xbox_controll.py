@@ -173,29 +173,29 @@ class XBOX_CONTROL():
         if self.get_out is 1:
             return 'get_out'
         rest = 0
-        if sell_price > 650:
+        if sell_price > 600:
             self.press_button('rb')
             sleep(1)
-            rest = 650
-        if sell_price > 1300:
+            rest = 600
+        if sell_price > 1200:
             self.press_button('rb')
             sleep(1)
-            rest = 1300
-        if sell_price > 2300:
+            rest = 1200
+        if sell_price > 2200:
             self.press_button('rb')
             sleep(1)
-            rest = 2300
-        if sell_price > 3300:
+            rest = 2200
+        if sell_price > 3200:
             self.press_button('rb')
             sleep(1)
-            rest = 3300
-        if sell_price > 4300:
+            rest = 3200
+        if sell_price > 4200:
             self.press_button('rb')
             sleep(1)
-            rest = 4300
+            rest = 4200
 
 
-        times = int(calc_selling(sell_price, rest)) + 1
+        times = int(calc_selling(sell_price, rest))
         for s in range(0, times):
             self.press_button('right')
             sleep(2)
