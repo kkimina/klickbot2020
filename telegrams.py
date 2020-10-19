@@ -3,7 +3,6 @@ from telegram.ext import CommandHandler
 from imagesearch import *
 from test import *
 import telegram
-import request
 
 class TGRAMS():
     def __init__(self):
@@ -180,7 +179,7 @@ class TGRAMS():
 
 
     def other_bot(self):
-        self.updater = Updater(token='1091873086:AAG3Zas2Tx3egjq0odjx8aydt3fkfsbpHWA', use_context=True)
+        self.updater = Updater(token='1385544367:AAHkxUSzjl_dHsr88ExJIgRsxrMUVTOjFqU', use_context=True)
         printscreen_handler = CommandHandler('printscreen', self.printscreen)
         wprice_handler = CommandHandler('wprice', self.wprice)
         screen_handler = CommandHandler('screen', self.screen)
@@ -232,7 +231,7 @@ class TGRAMS():
 
     #################### other way
     def telegram_bot_sendtext(self, bot_message):
-        bot_token = '1091873086:AAG3Zas2Tx3egjq0odjx8aydt3fkfsbpHWA'
+        bot_token = '1385544367:AAHkxUSzjl_dHsr88ExJIgRsxrMUVTOjFqU'
         bot_chatID = '1310706288'
         send_text = 'https://api.telegram.org/bot' + bot_token + '/sendMessage?chat_id=' + bot_chatID + '&parse_mode=Markdown&text=' + bot_message
 

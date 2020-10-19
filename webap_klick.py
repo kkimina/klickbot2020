@@ -23,6 +23,7 @@ class webapp():
         self.send_screen = 0
         self.status_screen = '0'
         self.transferlist = 60
+        self.stoerung     = 0
 
 
     def prepare_template_webapp(self, find_img):
@@ -52,7 +53,12 @@ class webapp():
             pyautogui.click(max_loc[0], max_loc[1])
 
     def klick_button_loop(self, find_img, find_img2, filter=10):
+
+        starttime = time.clock()
         while 1:
+            if (time.clock() - starttime) > 400:
+                self.stoerung = 1
+
             template = self.prepare_template_webapp(find_img)
             template2 = self.prepare_template_webapp(find_img2)
             screen = self.prepare_screenshot()
@@ -113,7 +119,10 @@ class webapp():
         time.sleep(5)
 
     def status_img_pix(self, find_img, coord, color, coord2, color2, filter = 10):
+        starttime = time.clock()
         while 1:
+            if (time.clock() - starttime) > 400:
+                self.stoerung = 1
             coord
             template = self.prepare_template_webapp(find_img)
             screen = self.prepare_screenshot()
@@ -160,7 +169,7 @@ class webapp():
     def buy_card(self):
         self.click_calib(self.buy)
         time.sleep(0.2)
-        self.click_calib(self.ok_buy)
+        #self.click_calib(self.ok_buy)
 
     def sell(self):
         time.sleep(2)
@@ -224,10 +233,13 @@ class webapp():
         while 1:
             if self.run == 'ON':
                 self.klick_button('search_button')
+
+
                 found = self.status_img_pix('status_not_found', self.button_calib(self.make_bid), self.pink, self.calibration(self.red_frame[0], self.red_frame[1]), self.red)
                 if found is 1:
                     self.click_calib(self.back)
                 elif found is 2:
+                    #if self.calib[0] is 0:
                     self.buy_card()
                     sell_status = self.sell()
                     #if sell_status != 'getout':

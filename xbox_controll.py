@@ -4,8 +4,6 @@ from time import sleep
 import struct
 import sys
 from calculations import *
-from imagesearch import *
-import numpy as np
 
 
 DEFAULT_IP = "127.0.0.1"
@@ -57,7 +55,6 @@ class XBOX_CONTROL():
         packet = bytearray([0x01, len(changes)])  # type + axis count
 
         for axis, value in changes.items():
-            # axis + value (network byte order)
             packet.extend(
                 [axis, (value & 0xff000000) >> 24, (value & 0xff0000) >> 16, (value & 0xff00) >> 8, (value & 0xff)])
 
@@ -170,7 +167,7 @@ class XBOX_CONTROL():
         times = int(calc_selling(sell_price, rest)) - 1
         for s in range(0, times):
             self.press_button('right')
-            sleep(0.5)
+            sleep(1)
 
     def make_price_search(self, anfang, sell_price):
         if self.get_out is 1:
@@ -201,7 +198,7 @@ class XBOX_CONTROL():
         times = int(calc_selling(sell_price, rest)) + 1
         for s in range(0, times):
             self.press_button('right')
-            sleep(0.5)
+            sleep(1)
 
     def kaufen2(self, bot,  imagebot):
         if self.get_out is 1:
@@ -213,19 +210,9 @@ class XBOX_CONTROL():
         sleep(0.05)
         changes[XboxOneControls.A] = ButtonState.RELEASED
         self.send_message(DEFAULT_IP, DEFAULT_PORT, changes)
-        #imagebot.get_pixel_color(bot, imagebot.regions['transfermarkt_found'][1] - 145,
-        #                         imagebot.regions['transfermarkt_found'][0] + 477,
-        #                         self,
-        #                         'down',
-        #                         imagebot.pink)
         sleep(0.05)
         changes = {XboxOneControls.DOWN: ButtonState.PRESSED}
         self.send_message(DEFAULT_IP, DEFAULT_PORT, changes)
-        #imagebot.get_pixel_color(bot, 246,
-        #                         1539,
-        #                         self,
-        #                         'down',
-        #                         imagebot.pink)
         sleep(0.05)
         changes = {XboxOneControls.A: ButtonState.PRESSED}
         self.send_message(DEFAULT_IP, DEFAULT_PORT, changes)
