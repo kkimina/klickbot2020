@@ -4,6 +4,7 @@ import cv2
 from time import *
 import time
 import pytesseract
+from setting import *
 
 class imagebot():
     def __init__(self, xbox_control):
@@ -90,8 +91,8 @@ class imagebot():
                 else:
                     bot.stoerung = 1
                     print('pink ' + str(image[[x, y][0], [x, y][1], 0] - color[0]) + ',' +
-                                    str(image[[x, y][0], [x, y][1], 1] - color[0]) + ',' +
-                                    str(image[[x, y][0], [x, y][1], 2] - color[0]))
+                                    str(image[[x, y][0], [x, y][1], 1] - color[1]) + ',' +
+                                    str(image[[x, y][0], [x, y][1], 2] - color[2]))
 
 
     def search_loop(self, bot,  pic):
@@ -343,7 +344,7 @@ class imagebot():
 
 
     def tess(self,bot, reg):
-        pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
+        pytesseract.pytesseract.tesseract_cmd = tesseract
         try:
             image = np.array(pyautogui.screenshot(region=(reg[0], reg[1], reg[2], reg[3])))
         except:
@@ -351,6 +352,7 @@ class imagebot():
             image = np.array(pyautogui.screenshot(region=(reg[0], reg[1], reg[2], reg[3])))
         template = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
         template = cv2.bitwise_not(template)
+        template[template > 200] = 255
         #print(pytesseract.image_to_string(template))
         #cv2.imshow('template', template)
         #cv2.waitKey()

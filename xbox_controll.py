@@ -167,7 +167,7 @@ class XBOX_CONTROL():
         times = int(calc_selling(sell_price, rest)) - 1
         for s in range(0, times):
             self.press_button('right')
-            sleep(1)
+            sleep(2)
 
     def make_price_search(self, anfang, sell_price):
         if self.get_out is 1:
@@ -195,10 +195,10 @@ class XBOX_CONTROL():
             rest = 4300
 
 
-        times = int(calc_selling(sell_price, rest))
+        times = int(calc_selling(sell_price, rest)) + 1
         for s in range(0, times):
             self.press_button('right')
-            sleep(1)
+            sleep(2)
 
     def kaufen2(self, bot,  imagebot):
         if self.get_out is 1:

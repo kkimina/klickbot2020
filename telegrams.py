@@ -3,6 +3,7 @@ from telegram.ext import CommandHandler
 from imagesearch import *
 from test import *
 import telegram
+from setting import *
 
 class TGRAMS():
     def __init__(self):
@@ -179,7 +180,12 @@ class TGRAMS():
 
 
     def other_bot(self):
-        self.updater = Updater(token='1385544367:AAHkxUSzjl_dHsr88ExJIgRsxrMUVTOjFqU', use_context=True)
+        if setting_bot is 1:
+            self.updater = Updater(token='1385544367:AAHkxUSzjl_dHsr88ExJIgRsxrMUVTOjFqU', use_context=True)
+        elif setting_bot is 2:
+            self.updater = Updater(token='1386571281:AAG9DKnpRH4Yx3BJzgEa6KireKKz959FUi8', use_context=True)
+
+
         printscreen_handler = CommandHandler('printscreen', self.printscreen)
         wprice_handler = CommandHandler('wprice', self.wprice)
         screen_handler = CommandHandler('screen', self.screen)
@@ -231,8 +237,7 @@ class TGRAMS():
 
     #################### other way
     def telegram_bot_sendtext(self, bot_message):
-        bot_token = '1385544367:AAHkxUSzjl_dHsr88ExJIgRsxrMUVTOjFqU'
-        bot_chatID = '1310706288'
+        bot_token  = bot_token_controll
         send_text = 'https://api.telegram.org/bot' + bot_token + '/sendMessage?chat_id=' + bot_chatID + '&parse_mode=Markdown&text=' + bot_message
 
         response = requests.get(send_text)
@@ -241,23 +246,10 @@ class TGRAMS():
 
 
     def telegram_bot_sendtextSTATUS(self,bot_message):
-        bot_token = '1127221085:AAFvvkHoXa6eCtI3HtEmJN0Sxcx4IWOkrRc'
-        bot_chatID = '1310706288'
+        bot_token = bot_token_status
         send_text = 'https://api.telegram.org/bot' + bot_token + '/sendMessage?chat_id=' + bot_chatID + '&parse_mode=Markdown&text=' + bot_message
 
         response = requests.get(send_text)
 
         return response.json()
 
-    #def bot2(self):
-    #    image = pyautogui.screenshot()
-    #    image = np.array(image)
-    #    image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
-    #    cv2.imwrite('printscreen.png', image)
-#
-#
-#        bot = telegram.Bot(token='1127221085:AAFvvkHoXa6eCtI3HtEmJN0Sxcx4IWOkrRc')
-#        update = telegram.Update.de_json(request.get_json(force=True), bot)
-#        chat_id = update.message.chat.id
-##        msg_id = update.message.message_id
-#        bot.sendPhoto(chat_id=chat_id, photo=image, reply_to_message_id=msg_id)

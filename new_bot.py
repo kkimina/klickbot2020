@@ -3,6 +3,7 @@ from xbox_controll import XBOX_CONTROL
 from computer_vision import imagebot
 from telegrams import TGRAMS
 from imagesearch import *
+import pyautogui
 import sys
 
 class XBOX_BOT():
@@ -178,6 +179,13 @@ class XBOX_BOT():
         self.xbox_cmd.press_button('a')
         sleep(5)
 
+    def safetyTest(self):
+        while 1:
+            image = pyautogui.screenshot()
+            image = np.array(image)
+            if self.vision.get_pixel_diff(image, [self.getCalibX(-148),self.getCalibY(+287)], [29, 107, 43], 10):
+                return 1
+
     def new_extended(self):
         if self.get_out is 1:
             return 'get_out'
@@ -186,6 +194,8 @@ class XBOX_BOT():
             self.transfermarkt = 0
 
         self.make_new_price()
+        self.safetyTest()
+
         self.vision.get_pixel_color(self, self.getCalibX(25), self.getCalibY(-170), self.xbox_cmd, 'down', self.vision.cyan, 0)
         self.xbox_cmd.press_button('left')
         try:
@@ -198,7 +208,7 @@ class XBOX_BOT():
 
     def make_new_price(self):
         self.vision.get_pixel_color(self, self.getCalibX(-36), self.getCalibY(-241), self.xbox_cmd, 'down',
-                                    [78,244,228], 0, thresh = 25)
+                                    [78,244,228], 0, thresh = 30)
         self.vision.get_pixel_color(self, self.getCalibX(123), self.getCalibY(-156), self.xbox_cmd, 'a', [62, 156, 191],
                                     0)
         if self.new_price == self.confirm_price:
