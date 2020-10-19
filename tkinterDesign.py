@@ -7,6 +7,9 @@ from subprocess import Popen
 import threading
 import requests
 import hashlib
+
+from new_bot import XBOX_BOT
+
 process = ''
 import json
 

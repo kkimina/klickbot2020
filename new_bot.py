@@ -96,14 +96,17 @@ class XBOX_BOT():
 
 
     def read_transfermarket(self):
-        obje_string = self.vision.tess(self, [self.getCalibY(470), self.getCalibX(-263), 102, 39])
-        if obje_string.__contains__('/100 Items'):
-            objekt_string = obje_string.replace('/100 Items', '')
-            self.transfermarkt = int(self.replace_string(objekt_string))
-            if self.transfermarkt > 90:
-                self.tele.telegram_bot_sendtext('TRANSFERMARKT FULL: ' + str(self.transfermarkt))
-                self.tele.telegram_bot_sendtext('TRANSFERMARKT FULL: ' + str(obje_string))
-                pass
+        try:
+            obje_string = self.vision.tess(self, [self.getCalibY(470), self.getCalibX(-263), 102, 39])
+            if obje_string.__contains__('/100 Items'):
+                objekt_string = obje_string.replace('/100 Items', '')
+                self.transfermarkt = int(self.replace_string(objekt_string))
+                if self.transfermarkt > 90:
+                    self.tele.telegram_bot_sendtext('TRANSFERMARKT FULL: ' + str(self.transfermarkt))
+                    self.tele.telegram_bot_sendtext('TRANSFERMARKT FULL: ' + str(obje_string))
+                    pass
+        except:
+            pass
     def set_price(self):
         if self.get_out is 1:
             return 'get_out'

@@ -150,7 +150,6 @@ class imagebot():
             image = np.array(image)
 
             coord2 = [x, y]
-            color = [111, 160, 51]
             if self.get_pixel_diff(image, coord2, [112,162,50], 10):
                 #print('gruen')
                 return 1
@@ -196,7 +195,7 @@ class imagebot():
         if self.get_out is 1:
             return 'get_out'
         if self.regions[find_img][4] is 0:
-            path = r'C:\Users\Kimi\Desktop\xbox'
+            path = r'xbox'
             template = cv2.imread(path + r'\\' + find_img + '.png')
             template = cv2.cvtColor(template, cv2.COLOR_BGR2GRAY)
             self.regions[find_img][4] = template
@@ -261,7 +260,7 @@ class imagebot():
         if self.get_out is 1:
             return 'get_out'
         bot.status = 'suche_pics2'+find_img1+find_img2
-        precision = 0.9
+        precision = 0.7
         template1 = self.prepare_template(find_img1)
         template2 = self.prepare_template(find_img2)
 

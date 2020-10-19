@@ -195,7 +195,7 @@ class XBOX_CONTROL():
             rest = 4300
 
 
-        times = int(calc_selling(sell_price, rest)) + 1
+        times = int(calc_selling(sell_price, rest))
         for s in range(0, times):
             self.press_button('right')
             sleep(1)
