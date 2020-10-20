@@ -90,7 +90,7 @@ class imagebot():
                     sicherheit = sicherheit + 1
                 else:
                     bot.stoerung = 1
-                    print('pink ' + str(image[[x, y][0], [x, y][1], 0] - color[0]) + ',' +
+                    print('get_pixel_color ' + str(image[[x, y][0], [x, y][1], 0] - color[0]) + ',' +
                                     str(image[[x, y][0], [x, y][1], 1] - color[1]) + ',' +
                                     str(image[[x, y][0], [x, y][1], 2] - color[2]))
 
@@ -189,7 +189,7 @@ class imagebot():
             self.regions[find_img][2] = template.shape[1]
             self.regions[find_img][3] = template.shape[0]
             self.regions[find_img][4] = template
-            cv2.imwrite('wrong_' + find_img + '.png', image)
+            #cv2.imwrite('wrong_' + find_img + '.png', image)
         return max_loc
 
     def prepare_template(self, find_img):
@@ -279,7 +279,7 @@ class imagebot():
                 self.regions[find_img2][4] = template2
                 self.regions[find_img2][2] = template2.shape[1]
                 self.regions[find_img2][3] = template2.shape[0]
-            cv2.imwrite('wrong_' + find_img2 + '.png', image2)
+            #cv2.imwrite('wrong_' + find_img2 + '.png', image2)
             # print("--- %s seconds ---" % (time.time() - start_time))
             return 2
 
@@ -293,7 +293,7 @@ class imagebot():
                 self.regions[find_img1][4] = template1
                 self.regions[find_img1][2] = template1.shape[1]
                 self.regions[find_img1][3] = template1.shape[0]
-                cv2.imwrite('wrong_' + find_img1 + '.png', image1)
+                #cv2.imwrite('wrong_' + find_img1 + '.png', image1)
             # print("--- %s seconds ---" % (time.time() - start_time))
             return 1
         return 0
@@ -324,7 +324,7 @@ class imagebot():
                 self.regions[find_img1][4] = template1
                 self.regions[find_img1][2] = template1.shape[1]
                 self.regions[find_img1][3] = template1.shape[0]
-                cv2.imwrite('wrong_' + find_img1 + '.png', image1)
+                #cv2.imwrite('wrong_' + find_img1 + '.png', image1)
             # print("--- %s seconds ---" % (time.time() - start_time))
             return 1
         return 0
