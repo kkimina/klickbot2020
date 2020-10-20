@@ -233,14 +233,6 @@ class BotiWidget(ttk.Frame):
                     self.bot.xbox_cmd.press_button('a')
                     self.bot.tele.telegram_bot_sendtext('erneut_versuchen')
 
-                #elif self.bot.vision.get_pixel_diff(image, [self.bot.getCalibX(-1), self.bot.getCalibY(+80)], self.bot.vision.blue, 9) is 1:
-                #    self.bot.xbox_cmd.press_button('b')
-                #    sleep(3)
-                #    self.bot.xbox_cmd.press_button('b')
-                #    sleep(3)
-                #    self.bot.xbox_cmd.press_button('up')
-                #    self.bot.tele.telegram_bot_sendtext('pixel_blue_pressed_b')
-                #
                 elif self.bot.vision.suche_pics('abgelaufen')[0] != -1:
                     self.bot.xbox_cmd.press_button('a')
                     self.bot.tele.telegram_bot_sendtext('abgelaufen_pressed_a')
@@ -261,12 +253,6 @@ class BotiWidget(ttk.Frame):
                     self.bot.xbox_cmd.press_button('a')
                     self.bot.tele.telegram_bot_sendtext('ok5_pressed_a')
 
-                #elif self.bot.vision.suche_pics('jaein')[0] != -1:
-                #    self.bot.xbox_cmd.press_button('down')
-                #    sleep(2)
-                #    self.bot.xbox_cmd.press_button('b')
-                #    self.bot.tele.telegram_bot_sendtext('jaein_b')
-
                 elif self.bot.vision.suche_pics('sicher_nein')[0] != -1:
                     self.bot.xbox_cmd.press_button('a')
                     self.bot.tele.telegram_bot_sendtext('sicher_a')
@@ -280,25 +266,12 @@ class BotiWidget(ttk.Frame):
                     self.bot.xbox_cmd.press_button('b')
                     self.bot.tele.telegram_bot_sendtext('transfermarkt_found_pressed_b')
 
-
-                #elif self.bot.vision.suche_pics('selling1')[0] != -1:
-                #    self.bot.xbox_cmd.press_button('x')
-                #    self.bot.tele.telegram_bot_sendtext('pressed_x')
-                #
-                #elif self.bot.vision.suche_pics('selling2')[0] != -1:
-                #    self.bot.xbox_cmd.press_button('x')
-                #    self.bot.tele.telegram_bot_sendtext('pressed_x')
-                #
-                #elif self.bot.vision.tess(self.bot, [1156, 220, 700, 240]).__contains__('OK'):
-                #    self.bot.xbox_cmd.press_button('a')
-                #    self.bot.tele.telegram_bot_sendtext('ok_a')
-                #
-                elif self.bot.vision.get_pixel_diff(image, [self.getCalibX(-97),self.getCalibY(276)], [135,  81, 251], 10):
+                elif self.bot.vision.get_pixel_diff(image, [self.bot.getCalibX(17),self.bot.getCalibY(274)], [120,  68, 233], 10):
                     self.bot.xbox_cmd.press_button('a')
                     self.bot.tele.telegram_bot_sendtext('get_back')
 
-                elif self.bot.vision.get_pixel_diff(image, [self.bot.getCalibX(79),self.bot.getCalibY(47)], [82, 230, 225], 10):
-                    self.vision.get_pixel_color(self, self.getCalibX(17), self.getCalibY(274), self.xbox_cmd, 'right',[120, 68, 233], 0)
+                elif self.bot.vision.get_pixel_diff(image, [self.bot.getCalibX(-97),self.bot.getCalibY(276)], [135,  81, 251], 10):
+                    self.vision.get_pixel_color(self, self.bot.getCalibX(17), self.bot.getCalibY(274), self.xbox_cmd, 'right',[120, 68, 233], 0)
                     self.bot.tele.telegram_bot_sendtext('go_to_transfermarkt')
 
                 else:
