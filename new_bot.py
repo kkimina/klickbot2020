@@ -40,6 +40,7 @@ class XBOX_BOT():
         self.solver         = 'ON'
         self.fast           = 0
         self.debug          = 0
+        self.sicherheit     = 0
 
 
     def start(self):
@@ -52,7 +53,9 @@ class XBOX_BOT():
         self.tele.telegram_bot_sendtextSTATUS('START-BOT')
         self.searchingbegin()
 
-
+    def init_sicherheit(self):
+        self.sicherheit = 0
+        self.stoerung   = 0
 
 
     def preissuche_loop(self):
@@ -179,12 +182,23 @@ class XBOX_BOT():
         self.xbox_cmd.press_button('a')
         sleep(5)
 
+    def whilebreak(self):
+        if self.sicherheit > 50:
+            self.stoerung = 1
+        self.sicherheit = self.sicherheit + 1
+
     def safetyTest(self):
+        if self.get_out is 1:
+            return 'get_out'
+        self.init_sicherheit()
         while 1:
             image = pyautogui.screenshot()
             image = np.array(image)
             if self.vision.get_pixel_diff(image, [self.getCalibX(-148),self.getCalibY(+287)], [29, 107, 43], 10):
+                self.init_sicherheit()
                 return 1
+            else:
+                self.whilebreak()
 
     def new_extended(self):
         if self.get_out is 1:

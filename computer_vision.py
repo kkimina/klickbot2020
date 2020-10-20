@@ -90,7 +90,7 @@ class imagebot():
                     sicherheit = sicherheit + 1
                 else:
                     bot.stoerung = 1
-                    print('pink ' + str(image[[x, y][0], [x, y][1], 0] - color[0]) + ',' +
+                    print('get_pixel_color ' + str(image[[x, y][0], [x, y][1], 0] - color[0]) + ',' +
                                     str(image[[x, y][0], [x, y][1], 1] - color[1]) + ',' +
                                     str(image[[x, y][0], [x, y][1], 2] - color[2]))
 
