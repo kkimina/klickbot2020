@@ -293,12 +293,12 @@ class BotiWidget(ttk.Frame):
                 #    self.bot.xbox_cmd.press_button('a')
                 #    self.bot.tele.telegram_bot_sendtext('ok_a')
                 #
-                elif self.bot.vision.get_pixel_diff(image, [self.bot.getCalibX(78),self.bot.getCalibY(-244)], [126, 222, 255], 10):
+                elif self.bot.vision.get_pixel_diff(image, [self.getCalibX(-97),self.getCalibY(276)], [135,  81, 251], 10):
                     self.bot.xbox_cmd.press_button('a')
                     self.bot.tele.telegram_bot_sendtext('get_back')
 
                 elif self.bot.vision.get_pixel_diff(image, [self.bot.getCalibX(79),self.bot.getCalibY(47)], [82, 230, 225], 10):
-                    self.bot.vision.vision.get_pixel_color(self, self.bot.getCalibX(78),self.bot.getCalibY(-244), self.xbox_cmd, 'right', [126, 222, 255], 0)
+                    self.vision.get_pixel_color(self, self.getCalibX(17), self.getCalibY(274), self.xbox_cmd, 'right',[120, 68, 233], 0)
                     self.bot.tele.telegram_bot_sendtext('go_to_transfermarkt')
 
                 else:
