@@ -162,6 +162,8 @@ class XBOX_BOT():
         return txt
 
     def empty_transfermarket(self):
+        if self.transfermarkt > 95:
+            sleep(120)
         self.xbox_cmd.press_button('b')
         sleep(5)
         self.vision.get_pixel_color(self, self.getCalibX(-97),self.getCalibY(276), self.xbox_cmd, 'right', 	[135,  81, 251], 0)
