@@ -233,6 +233,16 @@ class BotiWidget(ttk.Frame):
                     self.bot.xbox_cmd.press_button('a')
                     self.bot.tele.telegram_bot_sendtext('erneut_versuchen')
 
+                elif self.bot.vision.suche_pics('abgeschlossen')[0] != -1:
+                    self.bot.xbox_cmd.press_button('a')
+                    time.sleep(3)
+                    self.bot.xbox_cmd.press_button('b')
+                    time.sleep(3)
+                    self.bot.xbox_cmd.press_button('left')
+                    time.sleep(3)
+                    self.bot.tele.telegram_bot_sendtext('transferliste_out')
+
+
                 elif self.bot.vision.suche_pics('abgelaufen')[0] != -1:
                     self.bot.xbox_cmd.press_button('a')
                     self.bot.tele.telegram_bot_sendtext('abgelaufen_pressed_a')
@@ -271,6 +281,7 @@ class BotiWidget(ttk.Frame):
                     self.bot.tele.telegram_bot_sendtext('get_back')
 
                 elif self.bot.vision.get_pixel_diff(image, [self.bot.getCalibX(-97),self.bot.getCalibY(276)], [135,  81, 251], 10):
+
                     self.vision.get_pixel_color(self, self.bot.getCalibX(17), self.bot.getCalibY(274), self.xbox_cmd, 'right',[120, 68, 233], 0)
                     self.bot.tele.telegram_bot_sendtext('go_to_transfermarkt')
 

@@ -45,7 +45,8 @@ class imagebot():
             'erneut_versuchen': [0, 0, 0, 0, 0],
             'jaein': [0, 0, 0, 0, 0],
             'sicher_ja': [0, 0, 0, 0, 0],
-            'sicher_nein': [0, 0, 0, 0, 0]
+            'sicher_nein': [0, 0, 0, 0, 0],
+            'abgeschlossen': [0, 0, 0, 0, 0]
         }
 
 
