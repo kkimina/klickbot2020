@@ -140,6 +140,7 @@ class XBOX_BOT():
             self.last_price = int(self.replace_string(self.vision.tess(self, [self.getCalibY(397), self.getCalibX(-98), 44, 20])))
             self.sum = self.sum + self.price * 0.95 - self.last_price
         except:
+            self.sum = self.sum + self.price * 0.95 - self.buy_price
             #print("Unexpected error:", sys.exc_info()[0])
             pass
 
@@ -359,7 +360,7 @@ class XBOX_BOT():
                     elif gotIt == 2:
                         self.insgesamt = self.insgesamt + 1
                         print(str(self.cards) + " von (" + str(self.insgesamt) + ")")
-                        self.tele.telegram_bot_sendtextSTATUS(str(self.cards) + " von (" + str(self.insgesamt) + ") " + str(int(self.sum)) + ' Coins (' +str(round(self.sum*self.card_price/10000, 4))  + ' €)  Insgesamt:' + str(int(self.gesamt_coins_)) + '   TM:'+ str(self.transfermarkt))
+                        #self.tele.telegram_bot_sendtextSTATUS(str(self.cards) + " von (" + str(self.insgesamt) + ") " + str(int(self.sum)) + ' Coins (' +str(round(self.sum*self.card_price/10000, 4))  + ' €)  Insgesamt:' + str(int(self.gesamt_coins_)) + '   TM:'+ str(self.transfermarkt))
             if self.run is 'ON':
                 if (time.clock() - starttime) < 40:
                     sleep(random.randint(35, 45))

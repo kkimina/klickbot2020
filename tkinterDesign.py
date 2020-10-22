@@ -214,7 +214,7 @@ class BotiWidget(ttk.Frame):
             self.bot.buy_price        = int(self.xbox_verkauf_val.get())
             self.bot.price            = int(self.xbox_verkauf_val.get())
             self.bot.new_price        = int(self.xbox_kauf_val.get())
-            self.bot.card_price       = float(1.29)
+            self.bot.card_price       = float(0.65)
             self.webapp_status_screen.set(self.webapp.status_screen)
             sleep(5)
             if self.bot.stoerung is 1 and self.bot.solver is 'ON':
