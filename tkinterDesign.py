@@ -254,10 +254,6 @@ class BotiWidget(ttk.Frame):
                     self.bot.xbox_cmd.press_button('a')
                     self.bot.tele.telegram_bot_sendtext('transfermarkt2')
 
-                elif self.bot.vision.suche_pics('kuemmern')[0] != -1:
-                    self.bot.xbox_cmd.press_button('up')
-                    self.bot.tele.telegram_bot_sendtext('kuemmern')
-
                 elif self.bot.vision.suche_pics('verschieben')[0] != -1:
                     self.bot.xbox_cmd.press_button('a')
                     self.bot.tele.telegram_bot_sendtext('verschieben')
@@ -294,7 +290,6 @@ class BotiWidget(ttk.Frame):
                     self.bot.xbox_cmd.press_button('down')
                     self.bot.tele.telegram_bot_sendtext('sicher_runter')
 
-
                 elif self.bot.vision.suche_pics('transfermarkt_found')[0] != -1:
                     self.bot.xbox_cmd.press_button('b')
                     self.bot.tele.telegram_bot_sendtext('transfermarkt_found_pressed_b')
@@ -306,6 +301,12 @@ class BotiWidget(ttk.Frame):
                 elif self.bot.vision.get_pixel_diff(image, [self.bot.getCalibX(-97),self.bot.getCalibY(276)], [135,  81, 251], 10):
                     self.bot.vision.get_pixel_color(self, self.bot.getCalibX(17), self.bot.getCalibY(274), self.bot.xbox_cmd, 'right',[120, 68, 233], 0)
                     self.bot.tele.telegram_bot_sendtext('go_to_transfermarkt')
+
+                elif self.bot.vision.suche_pics('kuemmern')[0] != -1:
+                    self.bot.xbox_cmd.press_button('up')
+                    time.sleep(3)
+                    self.bot.xbox_cmd.press_button('a')
+                    self.bot.tele.telegram_bot_sendtext('kuemmern')
 
                 else:
                     self.bot.tele.telegram_bot_sendtext('STÖÖÖÖHRUNG no solution')
