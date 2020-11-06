@@ -15,6 +15,7 @@ class XBOX_BOT():
                                 'ok3'                : '2',
                                 'abgelaufen'         : '2',
                                 'gekauft'            : '1',
+                                'gekauft2'           : '1',
                             }
         self.status         = 'init'
         self.run            = 'OFF'
@@ -219,7 +220,6 @@ class XBOX_BOT():
             stringi = self.vision.tess(self, [self.getCalibY(-183),self.getCalibX(-291), 50, 15])
             self.gesamt_coins_ = int(self.replace_string(stringi))
         except:
-            #print("Unexpected error:", sys.exc_info()[0])
             pass
         self.xbox_cmd.press_button('y')
 

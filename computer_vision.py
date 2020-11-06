@@ -27,6 +27,7 @@ class imagebot():
             'transfermarkt_found': [0, 0, 0, 0, 0],
             'transfermarkt_nix': [0, 0, 0, 0, 0],
             'gekauft': [0, 0, 0, 0, 0],
+            'gekauft2': [0, 0, 0, 0, 0],
             'selling1': [0, 0, 0, 0, 0],
             'selling2': [0, 0, 0, 0, 0],
             'transfers': [0, 0, 0, 0, 0],
@@ -335,7 +336,7 @@ class imagebot():
 
     def suche_pics_loop(self, bot, pics):
         bot.status = 'suche_pics_loop'
-
+        sleep(3)
         for s in pics:
             if self.get_out is 1:
                 return 'get_out'
