@@ -214,7 +214,7 @@ class BotiWidget(ttk.Frame):
             self.bot.buy_price        = int(self.xbox_verkauf_val.get())
             self.bot.price            = int(self.xbox_verkauf_val.get())
             self.bot.new_price        = int(self.xbox_kauf_val.get())
-            self.bot.card_price       = float(0.65)
+            self.bot.card_price       = float(0.67)
             self.webapp_status_screen.set(self.webapp.status_screen)
             sleep(5)
             if self.bot.stoerung is 1 and self.bot.solver is 'ON':
@@ -249,6 +249,10 @@ class BotiWidget(ttk.Frame):
                 elif self.bot.vision.suche_pics('abgelaufen')[0] != -1:
                     self.bot.xbox_cmd.press_button('a')
                     self.bot.tele.telegram_bot_sendtext('abgelaufen_pressed_a')
+
+                elif self.bot.vision.suche_pics('abgelaufen2')[0] != -1:
+                    self.bot.xbox_cmd.press_button('a')
+                    self.bot.tele.telegram_bot_sendtext('abgelaufen2_pressed_a')
 
                 elif self.bot.vision.suche_pics('ok2')[0] != -1:
                     self.bot.xbox_cmd.press_button('a')
@@ -305,6 +309,7 @@ class BotiWidget(ttk.Frame):
         requestspeed = 0.75
 
         while 1:
+
             timestamp = str(int(time.time()))
             hash = hashlib.md5((str(partnerid) + str(secretkey) + str(timestamp)).encode())
             minbuy = str(self.selling_min_val.get())
@@ -323,7 +328,7 @@ class BotiWidget(ttk.Frame):
                     #time.sleep(5)
                 elif output.__contains__(r'Please try again in'):
                     print(output)
-                    sleep(int(str(output)[str(output).find('in') + 6:str(output).find('minutes') - 1]) * 60)
+                    #sleep(int(str(output)[str(output).find('in') + 6:str(output).find('minutes') - 1]) * 60)
                 elif output.__contains__(r'Request Limit Error'):
                     print(output)
                     sleep(5)
