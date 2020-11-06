@@ -50,6 +50,8 @@ class imagebot():
             'sicher_ja': [0, 0, 0, 0, 0],
             'sicher_nein': [0, 0, 0, 0, 0],
             'abgeschlossen': [0, 0, 0, 0, 0],
+            'verschieben': [0, 0, 0, 0, 0],
+            'kuemmern': [0, 0, 0, 0, 0],
             'kandidatenliste': [0, 0, 0, 0, 0]
         }
 

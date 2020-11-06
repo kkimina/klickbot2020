@@ -250,6 +250,13 @@ class BotiWidget(ttk.Frame):
                     self.bot.xbox_cmd.press_button('a')
                     self.bot.tele.telegram_bot_sendtext('transfermarkt1')
 
+                elif self.bot.vision.suche_pics('kuemmern')[0] != -1:
+                    self.bot.xbox_cmd.press_button('up')
+                    self.bot.tele.telegram_bot_sendtext('kuemmern')
+
+                elif self.bot.vision.suche_pics('verschieben')[0] != -1:
+                    self.bot.xbox_cmd.press_button('a')
+                    self.bot.tele.telegram_bot_sendtext('verschieben')
 
                 elif self.bot.vision.suche_pics('abgelaufen')[0] != -1:
                     self.bot.xbox_cmd.press_button('a')
