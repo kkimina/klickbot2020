@@ -246,6 +246,11 @@ class BotiWidget(ttk.Frame):
                     self.bot.xbox_cmd.press_button('a')
                     self.bot.tele.telegram_bot_sendtext('kandidatenliste')
 
+                elif self.bot.vision.suche_pics('transfermarkt1')[0] != -1:
+                    self.bot.xbox_cmd.press_button('a')
+                    self.bot.tele.telegram_bot_sendtext('transfermarkt1')
+
+
                 elif self.bot.vision.suche_pics('abgelaufen')[0] != -1:
                     self.bot.xbox_cmd.press_button('a')
                     self.bot.tele.telegram_bot_sendtext('abgelaufen_pressed_a')

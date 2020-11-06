@@ -31,6 +31,7 @@ class imagebot():
             'selling1': [0, 0, 0, 0, 0],
             'selling2': [0, 0, 0, 0, 0],
             'transfers': [0, 0, 0, 0, 0],
+            'transfermarkt1': [0, 0, 0, 0, 0],
             'verbrauch': [0, 0, 0, 0, 0],
             'anbieten1': [0, 0, 0, 0, 0],
             'extended': [0, 0, 0, 0, 0],
