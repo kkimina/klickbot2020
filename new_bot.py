@@ -346,6 +346,7 @@ class XBOX_BOT():
                     self.vision.get_out     = 0
                     self.xbox_cmd.get_out   = 0
                     self.stoerung           = 0
+                    self.solver             = 'ON'
                 elif self.run is 'ON':
                     if self.preissuche_loop() == 0:
                         self.tele.telegram_bot_sendtext('seltsam_preissuche_loop')
