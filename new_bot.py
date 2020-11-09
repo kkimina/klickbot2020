@@ -40,7 +40,7 @@ class XBOX_BOT():
         self.coinselling    = 'OFF'
         self.solver         = 'ON'
         self.fast           = 0
-        self.debug          = 0
+        self.debug          = 1
         self.sicherheit     = 0
 
 
@@ -299,6 +299,8 @@ class XBOX_BOT():
                 return 'get_out'
             nix = self.vision.suche_pics_loop(self, self.proof_loop)
             sleep(1)
+            if self.debug is 1:
+                print('PROOF_KAUF:'+ str(nix))
             if nix == 1:
                 self.xbox_cmd.press_button('a')
                 sicherheit = 0
