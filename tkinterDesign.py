@@ -204,7 +204,9 @@ class BotiWidget(ttk.Frame):
 
 
     def automatic_update(self):
+        stoerfeuer = 0
         while 1:
+
             self.xbox_statistics.set(str(self.bot.cards) + " von (" + str(self.bot.insgesamt) + ")")
             self.change_prices()
             self.pause()
@@ -309,9 +311,11 @@ class BotiWidget(ttk.Frame):
                     self.bot.tele.telegram_bot_sendtext('kuemmern')
 
                 else:
-                    self.bot.tele.telegram_bot_sendtext('STÖÖÖÖHRUNG no solution')
-                    print('STÖÖÖÖHRUNG no solution')
-                    self.bot.solver = 'OFF'
+                    stoerfeuer = stoerfeuer + 1
+                    if stoerfeuer > 5:
+                        self.bot.tele.telegram_bot_sendtext('STÖÖÖÖHRUNG no solution')
+                        print('STÖÖÖÖHRUNG no solution')
+                        self.bot.solver = 'OFF'
 
     def send_statistic(self):
         if self.webapp_status_screen.get() != 'WEBAPP':
