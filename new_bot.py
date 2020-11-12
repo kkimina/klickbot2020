@@ -333,11 +333,14 @@ class XBOX_BOT():
                 sleep(3)
                 self.xbox_cmd.press_button('b')
                 return 2
-
-            sleep(0.5)
-            sicherheit = sicherheit + 1
-            if sicherheit > 10:
-                self.stoerung = 1
+            elif nix == 0:
+                sleep(0.5)
+                sicherheit = sicherheit + 1
+                if sicherheit > 10:
+                    print('stoerung proof_kauf')
+                    self.stoerung = 1
+            else:
+                print('should not happen')
         print('mhm')
         return 0
 
