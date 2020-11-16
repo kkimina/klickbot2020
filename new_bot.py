@@ -101,6 +101,8 @@ class XBOX_BOT():
 
 
     def read_transfermarket(self):
+        if self.get_out is 1:
+            return 'get_out'
         try:
             obje_string = self.vision.tess(self, [self.getCalibY(470), self.getCalibX(-263), 102, 39])
             if obje_string.__contains__('/100 Items'):
@@ -315,7 +317,7 @@ class XBOX_BOT():
                     else:
                         sleep(1)
                         sicherheit = sicherheit + 1
-                        if sicherheit > 50:
+                        if sicherheit > 10:
                             self.stoerung = 1
                 test = self.selling(150)
                 if test == 0:
@@ -331,11 +333,14 @@ class XBOX_BOT():
                 sleep(3)
                 self.xbox_cmd.press_button('b')
                 return 2
-
-            sleep(0.5)
-            sicherheit = sicherheit + 1
-            if sicherheit > 10:
-                self.stoerung = 1
+            elif nix == 0:
+                sleep(0.5)
+                sicherheit = sicherheit + 1
+                if sicherheit > 10:
+                    print('stoerung proof_kauf')
+                    self.stoerung = 1
+            else:
+                print('should not happen')
         print('mhm')
         return 0
 
