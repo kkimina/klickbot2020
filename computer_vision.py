@@ -70,7 +70,7 @@ class imagebot():
             return 0
 
 
-    def get_pixel_color(self, bot, x, y, xbox_cmd, command, color, schnell = 1,thresh = 10):
+    def get_pixel_color(self, bot, x, y, xbox_cmd, command, color, schnell = 1,thresh = 40):
         sicherheit = 0
         bot.status = 'get_pixel_color'+command#+str(x)+str(y)
         while 1:
@@ -164,9 +164,17 @@ class imagebot():
                 return 1
                 # return
                 pass
+            elif self.get_pixel_diff(image, coord2, [112-66,162+88,50-20], 10):
+                sleep(0.1)
+                #print('gruen2')
+                return 1
             elif self.get_pixel_diff(image, coord2, [134, 24, 28], 10):
                 sleep(0.1)
                 #print('rot')
+                return 1
+            elif self.get_pixel_diff(image, coord2, [134-64, 24+89, 28-20], 10):
+                sleep(0.1)
+                #print('rot2')
                 return 1
             else:
                 pass
@@ -230,7 +238,7 @@ class imagebot():
         image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
         return image
 
-    def pixel_compare(self, bot, coord1, coord4, color1, color4, filter1, filter4):
+    def pixel_compare(self, bot, coord1, coord4, color1, color4):
         bot.status = 'pixel_compare'#+str(coord1)+str(coord2)+str(color1)+str(color2)
         sicherheit = 0
         while 1:
@@ -243,14 +251,14 @@ class imagebot():
                 image = pyautogui.screenshot()
             image = np.array(image)
 
-            if self.get_pixel_diff(image, coord1, color1, filter1):
+            if self.get_pixel_diff(image, coord1, color1, 20):
                 bot.stoerung = 0
                 return 1
-            elif self.get_pixel_diff(image, coord4, color4, filter4):
+            elif self.get_pixel_diff(image, [coord4[0], coord4[1]-153], color4, 15):
                 bot.stoerung = 0
                 #print('grau')
                 return 2
-            elif self.get_pixel_diff(image, [bot.getCalibX(123),bot.getCalibY(-245)], [134, 24, 28], 5):
+            elif self.get_pixel_diff(image, [bot.getCalibX(123),bot.getCalibY(-245)], [134, 24, 28], 10):
                 bot.stoerung = 0
                 #print('prerot')
                 return 3

@@ -198,7 +198,7 @@ class XBOX_BOT():
         while 1:
             image = pyautogui.screenshot()
             image = np.array(image)
-            if self.vision.get_pixel_diff(image, [self.getCalibX(-148),self.getCalibY(+287)], [29, 107, 43], 10):
+            if self.vision.get_pixel_diff(image, [self.getCalibX(-148),self.getCalibY(+287)], [29, 107, 43], 40):
                 self.init_sicherheit()
                 return 1
             else:
@@ -226,7 +226,7 @@ class XBOX_BOT():
     def make_new_price(self):
         self.vision.get_pixel_color(self, self.getCalibX(-36), self.getCalibY(-241), self.xbox_cmd, 'down',
                                     [78,244,228], 0, thresh = 30)
-        self.vision.get_pixel_color(self, self.getCalibX(123), self.getCalibY(-156), self.xbox_cmd, 'a', [62, 156, 191],
+        self.vision.get_pixel_color(self, self.getCalibX(123), self.getCalibY(-156), self.xbox_cmd, 'a', [62+8, 156-20, 191-23],
                                     0)
         if self.new_price == self.confirm_price:
             return
@@ -246,6 +246,7 @@ class XBOX_BOT():
     def selling(self, anfang):
         if self.get_out is 1:
             return 'get_out'
+        sleep(1)
         self.xbox_cmd.press_button('x')
         self.vision.search_loop(self, 'anbieten1')
         self.selling_new(anfang)
@@ -272,8 +273,7 @@ class XBOX_BOT():
                                     [self.getCalibX(-50),self.getCalibY(44)],
                                     [self.getCalibX(-235), self.getCalibY(+96)],
                                                 self.vision.lila,
-                                               [45, 45, 63],
-                                                 10, 10)
+                                               [45, 45, 63])
 
             if nix == 2:
                 self.vision.waitKaufsignal2(self, self.getCalibX(123),self.getCalibY(-245))

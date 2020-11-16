@@ -184,7 +184,8 @@ class TGRAMS():
             self.updater = Updater(token='1385544367:AAHkxUSzjl_dHsr88ExJIgRsxrMUVTOjFqU', use_context=True)
         elif setting_bot is 2:
             self.updater = Updater(token='1386571281:AAG9DKnpRH4Yx3BJzgEa6KireKKz959FUi8', use_context=True)
-
+        elif setting_bot is 3:
+            self.updater = Updater(token='1429199644:AAGpxKtWFIqIt6SeDJQDTSy8oSMXJsWYDwQ', use_context=True)
 
         printscreen_handler = CommandHandler('printscreen', self.printscreen)
         wprice_handler = CommandHandler('wprice', self.wprice)
