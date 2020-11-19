@@ -40,8 +40,9 @@ class XBOX_BOT():
         self.coinselling    = 'OFF'
         self.solver         = 'ON'
         self.fast           = 0
-        self.debug          = 1
+        self.debug          = 0
         self.sicherheit     = 0
+        self.server_request = 0
 
 
     def start(self):
@@ -224,6 +225,10 @@ class XBOX_BOT():
         except:
             pass
         self.xbox_cmd.press_button('y')
+        self.add_serverrequest()
+
+    def add_serverrequest(self):
+        self.server_request = self.server_request + 1
 
     def make_new_price(self):
         self.vision.get_pixel_color(self, self.getCalibX(-36), self.getCalibY(-241), self.xbox_cmd, 'down',

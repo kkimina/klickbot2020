@@ -20,6 +20,7 @@ class BotiWidget(ttk.Frame):
         self.webapp = webapp()
         self.temp           = 0
         self.webapp_coins   = 0
+        self.stoerfeuer     = 0
 
         frame_2 = ttk.Frame(self)
         xbox_verkauf = ttk.Entry(frame_2)
@@ -151,6 +152,7 @@ class BotiWidget(ttk.Frame):
         threading.Thread(target=self.get_coin_sell).start()
         #threading.Thread(target=self.webapp.main_bot).start()
         threading.Thread(target=self.bot.tele.other_bot).start()
+        threading.Thread(target=self.timerstatistic).start()
         self.bot.tele.updater.start_polling()
         #self.bot.tele.updater.idle()
 
@@ -171,7 +173,14 @@ class BotiWidget(ttk.Frame):
                 self.bot.tele.status = ''
                 self.selling_on_off()
 
-
+    def timerstatistic(self):
+        while 1:
+            last_time       = time.time()
+            last_requests   = self.bot.server_request
+            time.sleep(60)
+            time_diff    = time.time() - last_time
+            request_diff = self.bot.server_request - last_requests
+            print(request_diff/time_diff)
 
     def change_prices(self):
             if self.bot.tele.status == 'bot':
@@ -204,9 +213,8 @@ class BotiWidget(ttk.Frame):
 
 
     def automatic_update(self):
-        stoerfeuer = 0
+        self.stoerfeuer = 0
         while 1:
-
             self.xbox_statistics.set(str(self.bot.cards) + " von (" + str(self.bot.insgesamt) + ")")
             self.change_prices()
             self.pause()
@@ -224,10 +232,11 @@ class BotiWidget(ttk.Frame):
                 image = np.array(image)
                 cv2.imwrite('stoerung.png', image)
                 if self.bot.vision.suche_pics('extended')[0] != -1:
-                    self.bot.stoerung = 0
-                    self.bot.get_out = 1
-                    self.bot.vision.get_out = 1
-                    self.bot.xbox_cmd.get_out = 1
+                    self.bot.stoerung           = 0
+                    self.bot.get_out            = 1
+                    self.bot.vision.get_out     = 1
+                    self.bot.xbox_cmd.get_out   = 1
+                    self.stoerfeuer             = 0
                     self.bot.vision.regions['transfermarkt_found'][0] = 0
                     self.bot.tele.telegram_bot_sendtext('getout')
 
@@ -311,8 +320,8 @@ class BotiWidget(ttk.Frame):
                     self.bot.tele.telegram_bot_sendtext('kuemmern')
 
                 else:
-                    stoerfeuer = stoerfeuer + 1
-                    if stoerfeuer > 5:
+                    self.stoerfeuer = self.stoerfeuer + 1
+                    if self.stoerfeuer > 5:
                         self.bot.tele.telegram_bot_sendtext('STÖÖÖÖHRUNG no solution')
                         print('STÖÖÖÖHRUNG no solution')
                         self.bot.solver = 'OFF'
@@ -392,11 +401,13 @@ class BotiWidget(ttk.Frame):
             self.sell_field.set('SELLING - Running...')
             self.bot.coinselling = 'ON'
             self.bot.solver      = 'ON'
+            self.stoerfeuer      = 0
 
         elif self.bot.coinselling is 'ON':
             self.sell_field.set('SELLING - OFF')
             self.bot.coinselling = 'OFF'
             self.bot.solver      = 'ON'
+            self.stoerfeuer      = 0
 
     def bot_on_off(self):
         if self.bot.run is 'OFF':
