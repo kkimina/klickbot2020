@@ -43,6 +43,7 @@ class XBOX_BOT():
         self.debug          = 0
         self.sicherheit     = 0
         self.server_request = 0
+        self.sleep          = 0
 
 
     def start(self):
@@ -375,10 +376,9 @@ class XBOX_BOT():
                         print(str(self.cards) + " von (" + str(self.insgesamt) + ")")
                         #self.tele.telegram_bot_sendtextSTATUS(str(self.cards) + " von (" + str(self.insgesamt) + ") " + str(int(self.sum)) + ' Coins (' +str(round(self.sum*self.card_price/10000, 4))  + ' €)  Insgesamt:' + str(int(self.gesamt_coins_)) + '   TM:'+ str(self.transfermarkt))
             if self.run is 'ON':
-                if (time.clock() - starttime) < 40:
-                    sleep(random.randint(35, 45))
-                else:
-                    sleep(random.randint(10, 20))
+                if self.sleep > 5:
+                    sleep(random.randint(50, 90))
+                    self.sleep = 0
         print('BOT_ENDE')
 
 

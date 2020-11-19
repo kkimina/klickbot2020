@@ -181,6 +181,10 @@ class BotiWidget(ttk.Frame):
             time_diff    = time.time() - last_time
             request_diff = self.bot.server_request - last_requests
             print(request_diff/time_diff)
+            if request_diff/time_diff > 0.1:
+                self.bot.sleep = self.bot.sleep + 1
+            else:
+                self.bot.sleep = max(self.bot.sleep - 1,0)
 
     def change_prices(self):
             if self.bot.tele.status == 'bot':
