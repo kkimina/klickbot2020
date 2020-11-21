@@ -323,6 +323,12 @@ class BotiWidget(ttk.Frame):
                     self.bot.xbox_cmd.press_button('a')
                     self.bot.tele.telegram_bot_sendtext('kuemmern')
 
+                elif self.bot.vision.suche_pics('fehler1')[0] != -1:
+                    self.bot.xbox_cmd.press_button('b')
+                    time.sleep(3)
+                    self.bot.tele.telegram_bot_sendtext('fehler1')
+
+
                 else:
                     self.stoerfeuer = self.stoerfeuer + 1
                     if self.stoerfeuer > 5:

@@ -23,6 +23,7 @@ class imagebot():
             'normal': [0, 0, 0, 0, 0],
             'abgelaufen': [0, 0, 0, 0, 0],
             'abgelaufen2': [0, 0, 0, 0, 0],
+            'fehler1': [0, 0, 0, 0, 0],
             'kaufen_yes': [0, 0, 0, 0, 0],
             'transfermarkt_found': [0, 0, 0, 0, 0],
             'transfermarkt_nix': [0, 0, 0, 0, 0],
