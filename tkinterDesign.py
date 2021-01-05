@@ -150,7 +150,7 @@ class BotiWidget(ttk.Frame):
         time.sleep(3)
         self.bot_on_off()
         threading.Thread(target=self.get_coin_sell).start()
-        #threading.Thread(target=self.webapp.main_bot).start()
+        threading.Thread(target=self.webapp.main_bot).start()
         threading.Thread(target=self.bot.tele.other_bot).start()
         threading.Thread(target=self.timerstatistic).start()
         self.bot.tele.updater.start_polling()
@@ -247,6 +247,7 @@ class BotiWidget(ttk.Frame):
                 elif self.bot.vision.suche_pics('erneut_versuchen')[0] != -1:
                     self.bot.xbox_cmd.press_button('a')
                     self.bot.tele.telegram_bot_sendtext('erneut_versuchen')
+                    print('erneut_versuchen')
 
                 elif self.bot.vision.suche_pics('abgeschlossen')[0] != -1:
                     self.bot.xbox_cmd.press_button('a')
@@ -256,26 +257,32 @@ class BotiWidget(ttk.Frame):
                     self.bot.xbox_cmd.press_button('left')
                     time.sleep(3)
                     self.bot.tele.telegram_bot_sendtext('transferliste_out')
+                    print('transferliste_out')
 
                 elif self.bot.vision.suche_pics('kandidatenliste')[0] != -1:
                     self.bot.xbox_cmd.press_button('a')
                     self.bot.tele.telegram_bot_sendtext('kandidatenliste')
+                    print('kandidatenliste')
 
                 elif self.bot.vision.suche_pics('transfermarkt1')[0] != -1:
                     self.bot.xbox_cmd.press_button('a')
                     self.bot.tele.telegram_bot_sendtext('transfermarkt1')
+                    print('transfermarkt1')
 
                 elif self.bot.vision.suche_pics('transfermarkt2')[0] != -1:
                     self.bot.xbox_cmd.press_button('a')
                     self.bot.tele.telegram_bot_sendtext('transfermarkt2')
+                    print('transfermarkt2')
 
                 elif self.bot.vision.suche_pics('verschieben')[0] != -1:
                     self.bot.xbox_cmd.press_button('a')
                     self.bot.tele.telegram_bot_sendtext('verschieben')
+                    print('verschieben')
 
                 elif self.bot.vision.suche_pics('abgelaufen')[0] != -1:
                     self.bot.xbox_cmd.press_button('a')
                     self.bot.tele.telegram_bot_sendtext('abgelaufen_pressed_a')
+                    print('abgelaufen_pressed_a')
 
                 elif self.bot.vision.suche_pics('abgelaufen2')[0] != -1:
                     self.bot.xbox_cmd.press_button('a')
@@ -284,26 +291,32 @@ class BotiWidget(ttk.Frame):
                 elif self.bot.vision.suche_pics('ok2')[0] != -1:
                     self.bot.xbox_cmd.press_button('a')
                     self.bot.tele.telegram_bot_sendtext('ok2_pressed_a')
+                    print('ok2_pressed_a')
 
                 elif self.bot.vision.suche_pics('ok3')[0] != -1:
                     self.bot.xbox_cmd.press_button('a')
                     self.bot.tele.telegram_bot_sendtext('ok3_pressed_a')
+                    print('ok3_pressed_a')
 
                 elif self.bot.vision.suche_pics('ok4')[0] != -1:
                     self.bot.xbox_cmd.press_button('a')
                     self.bot.tele.telegram_bot_sendtext('ok4_pressed_a')
+                    print('ok4_pressed_a')
 
                 elif self.bot.vision.suche_pics('ok5')[0] != -1:
                     self.bot.xbox_cmd.press_button('a')
                     self.bot.tele.telegram_bot_sendtext('ok5_pressed_a')
+                    print('ok5_pressed_a')
 
                 elif self.bot.vision.suche_pics('sicher_nein')[0] != -1:
                     self.bot.xbox_cmd.press_button('a')
                     self.bot.tele.telegram_bot_sendtext('sicher_a')
+                    print('sicher_a')
 
                 elif self.bot.vision.suche_pics('sicher_ja')[0] != -1:
                     self.bot.xbox_cmd.press_button('down')
                     self.bot.tele.telegram_bot_sendtext('sicher_runter')
+                    print('sicher_runter')
 
                 elif self.bot.vision.suche_pics('transfermarkt_found')[0] != -1:
                     self.bot.xbox_cmd.press_button('b')
@@ -312,21 +325,25 @@ class BotiWidget(ttk.Frame):
                 elif self.bot.vision.get_pixel_diff(image, [self.bot.getCalibX(17),self.bot.getCalibY(274)], [120,  68, 233], 10):
                     self.bot.xbox_cmd.press_button('a')
                     self.bot.tele.telegram_bot_sendtext('get_back')
+                    print('transfermarkt_found_pressed_b')
 
                 elif self.bot.vision.get_pixel_diff(image, [self.bot.getCalibX(-97),self.bot.getCalibY(276)], [135,  81, 251], 10):
                     self.bot.vision.get_pixel_color(self, self.bot.getCalibX(17), self.bot.getCalibY(274), self.bot.xbox_cmd, 'right',[120, 68, 233], 0)
                     self.bot.tele.telegram_bot_sendtext('go_to_transfermarkt')
+                    print('go_to_transfermarkt')
 
                 elif self.bot.vision.suche_pics('kuemmern')[0] != -1:
                     self.bot.xbox_cmd.press_button('up')
                     time.sleep(3)
                     self.bot.xbox_cmd.press_button('a')
                     self.bot.tele.telegram_bot_sendtext('kuemmern')
+                    print('kuemmern')
 
                 elif self.bot.vision.suche_pics('fehler1')[0] != -1:
                     self.bot.xbox_cmd.press_button('b')
                     time.sleep(3)
                     self.bot.tele.telegram_bot_sendtext('fehler1')
+                    print('fehler1')
 
 
                 else:
@@ -355,7 +372,7 @@ class BotiWidget(ttk.Frame):
             minbuy = str(self.selling_min_val.get())
             maxbuy = str(self.selling_max_val.get())
             dsfut_path = r'https://dsfut.net/api/21/xb/' + partnerid + r'/' + timestamp + r'/' + str(
-                hash.hexdigest() + r'?min_buy=' + minbuy + r'&max_buy=' + maxbuy)
+                hash.hexdigest() + r'?min_buy=' + minbuy + r'&max_buy=' + maxbuy)#+ r'&take_after=10')
             if self.bot.coinselling is 'ON':
                 output = requests.get(dsfut_path).text
                 if output.__contains__(r'Queue is empty'):

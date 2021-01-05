@@ -110,7 +110,7 @@ class XBOX_BOT():
             if obje_string.__contains__('/100 Items'):
                 objekt_string = obje_string.replace('/100 Items', '')
                 self.transfermarkt = int(self.replace_string(objekt_string))
-                if self.transfermarkt > 90:
+                if self.transfermarkt > 93:
                     self.tele.telegram_bot_sendtext('TRANSFERMARKT FULL: ' + str(self.transfermarkt))
                     self.tele.telegram_bot_sendtext('TRANSFERMARKT FULL: ' + str(obje_string))
                     pass

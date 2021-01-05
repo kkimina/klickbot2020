@@ -4,6 +4,7 @@ import cv2
 import time
 import random
 import pytesseract
+from xbox_controll import XBOX_CONTROL
 
 class webapp():
     def __init__(self):
@@ -24,10 +25,11 @@ class webapp():
         self.status_screen = '0'
         self.transferlist = 60
         self.stoerung     = 0
+        self.cmd_bot = 0
 
 
     def prepare_template_webapp(self, find_img):
-        path = r'C:\Users\Kimi\Desktop\webapp'
+        path = r'xbox'
         template = cv2.imread(path + r'\\' + find_img + '.png')
         template = cv2.cvtColor(template, cv2.COLOR_BGR2GRAY)
         return template
@@ -52,6 +54,21 @@ class webapp():
                 self.calib = [max_loc[0], max_loc[1]]
             pyautogui.click(max_loc[0], max_loc[1])
 
+    def findimg_press_button(self, find_img, cont):
+        template = self.prepare_template_webapp(find_img)
+        screen = self.prepare_screenshot()
+
+        precision = 0.9
+        res = cv2.matchTemplate(screen, template, cv2.TM_CCOEFF_NORMED)
+        min_val, max_val, min_loc, max_loc = cv2.minMaxLoc(res)
+        if max_val < precision:
+            pass
+        else:
+            if self.calib[0] is 0:
+                self.calib = [max_loc[0], max_loc[1]]
+            #pyautogui.click(max_loc[0], max_loc[1])
+            self.cmd_bot.press_button(cont)
+            time.sleep(10)
     def klick_button_loop(self, find_img, find_img2, filter=10):
 
         starttime = time.clock()
@@ -230,52 +247,58 @@ class webapp():
         timercount = 0
         buyed = 0
         starttime = time.clock()
+        self.cmd_bot = XBOX_CONTROL()
         while 1:
             if self.run == 'ON':
-                self.klick_button('search_button')
-
-
-                found = self.status_img_pix('status_not_found', self.button_calib(self.make_bid), self.pink, self.calibration(self.red_frame[0], self.red_frame[1]), self.red)
-                if found is 1:
-                    self.click_calib(self.back)
-                elif found is 2:
-                    #if self.calib[0] is 0:
-                    self.buy_card()
-                    sell_status = self.sell()
-                    #if sell_status != 'getout':
-                        #buyed = buyed + 1
-                        #print(str(buyed*self.sell_price*0.95-buyed*self.buy_price))
-                        #self.status_screen = str(int(buyed*self.sell_price*0.95-buyed*self.buy_price))
-                    self.click_calib(self.back)
-                time.sleep(random.randint(20, 80) / 10)
-                timercount = timercount+1
-                self.fill_prices(self.buy_price)
-
-                if timercount > 10:
-                    timercount = 0
-                    if (time.clock() - starttime) < 40:
-                        time.sleep(random.randint(35, 45))
-                    else:
-                        time.sleep(random.randint(10, 20))
-                    starttime = time.clock()
-
-                if self.transferlist > 50:
-                    self.clear_list()
-                    self.transferlist = 30
-
-
-            elif self.run == 'SUCHE':
-                self.klick_button('search_button')
-                time.sleep(2)
-                self.click_calib(self.back)
-                time.sleep(2)
-                self.fill_prices(self.suchpreis)
-                self.klick_button('search_button')
-                time.sleep(2)
-                self.send_screen = 1
-                self.run = 'SUCHE_WEITER'
-            elif self.run == 'SUCHE_WEITER' and self.send_screen == 0:
-                self.click_calib(self.back)
-                time.sleep(3)
-                self.fill_prices(self.buy_price)
-                self.run = 'SUCHE_END'
+                self.findimg_press_button('abbrechen', 'right')
+                self.findimg_press_button('mannschaft', 'menu')
+                time.sleep(5)
+                self.cmd_bot.press_button('a')
+            #if self.run == 'ON':
+            #    self.klick_button('search_button')
+            #
+            #
+            #    found = self.status_img_pix('status_not_found', self.button_calib(self.make_bid), self.pink, self.calibration(self.red_frame[0], self.red_frame[1]), self.red)
+            #    if found is 1:
+            #        self.click_calib(self.back)
+            #    elif found is 2:
+            #        #if self.calib[0] is 0:
+            #        self.buy_card()
+            #        sell_status = self.sell()
+            #        #if sell_status != 'getout':
+            #            #buyed = buyed + 1
+            #            #print(str(buyed*self.sell_price*0.95-buyed*self.buy_price))
+            #            #self.status_screen = str(int(buyed*self.sell_price*0.95-buyed*self.buy_price))
+            #        self.click_calib(self.back)
+            #    time.sleep(random.randint(20, 80) / 10)
+            #    timercount = timercount+1
+            #    self.fill_prices(self.buy_price)
+            #
+            #    if timercount > 10:
+            #        timercount = 0
+            #        if (time.clock() - starttime) < 40:
+            #            time.sleep(random.randint(35, 45))
+            #        else:
+            #            time.sleep(random.randint(10, 20))
+            #        starttime = time.clock()
+            #
+            #    if self.transferlist > 50:
+            #        self.clear_list()
+            #        self.transferlist = 30
+            #
+            #
+            #elif self.run == 'SUCHE':
+            #    self.klick_button('search_button')
+            #    time.sleep(2)
+            #    self.click_calib(self.back)
+            #    time.sleep(2)
+            #    self.fill_prices(self.suchpreis)
+            #    self.klick_button('search_button')
+            #    time.sleep(2)
+            #    self.send_screen = 1
+            #    self.run = 'SUCHE_WEITER'
+            #elif self.run == 'SUCHE_WEITER' and self.send_screen == 0:
+            #    self.click_calib(self.back)
+            #    time.sleep(3)
+            #    self.fill_prices(self.buy_price)
+            #    self.run = 'SUCHE_END'

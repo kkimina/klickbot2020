@@ -108,6 +108,10 @@ class XBOX_CONTROL():
             button_default = XboxOneControls.RB
         elif button == 'lb':
             button_default = XboxOneControls.LB
+        elif button == 'guide':
+            button_default = XboxOneControls.GUIDE
+        elif button == 'menu':
+            button_default = XboxOneControls.MENU
 
         changes = {button_default: ButtonState.PRESSED}
         self.send_message(DEFAULT_IP, DEFAULT_PORT, changes)
