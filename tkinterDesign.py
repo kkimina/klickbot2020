@@ -244,6 +244,11 @@ class BotiWidget(ttk.Frame):
                     self.bot.vision.regions['transfermarkt_found'][0] = 0
                     self.bot.tele.telegram_bot_sendtext('getout')
 
+                elif self.bot.vision.get_pixel_diff(image, [self.bot.getCalibX(-45),self.bot.getCalibY(-48)], [151,  70, 244], 10):
+                    self.bot.xbox_cmd.press_button('up')
+                    self.bot.tele.telegram_bot_sendtext('geklappt')
+                    print('geklappt')
+
                 elif self.bot.vision.suche_pics('erneut_versuchen')[0] != -1:
                     self.bot.xbox_cmd.press_button('a')
                     self.bot.tele.telegram_bot_sendtext('erneut_versuchen')
@@ -372,7 +377,7 @@ class BotiWidget(ttk.Frame):
             minbuy = str(self.selling_min_val.get())
             maxbuy = str(self.selling_max_val.get())
             dsfut_path = r'https://dsfut.net/api/21/xb/' + partnerid + r'/' + timestamp + r'/' + str(
-                hash.hexdigest() + r'?min_buy=' + minbuy + r'&max_buy=' + maxbuy)#+ r'&take_after=10')
+                hash.hexdigest() + r'?min_buy=' + minbuy + r'&max_buy=')# + maxbuy+ r'&take_after=10')
             if self.bot.coinselling is 'ON':
                 output = requests.get(dsfut_path).text
                 if output.__contains__(r'Queue is empty'):
